@@ -1,20 +1,23 @@
+PRE_DIR=./pre
+ASM_DIR=./asm
+BIN_DIR=./bin
 time:time_test.c
-	gcc -E -o ./pre/time.i time_test.c
-	gcc -S -o ./asm/time.s time_test.c
-	gcc -o ./bin/time time_test.c
+	gcc -E -o $(PRE_DIR)/time.i time_test.c
+	gcc -S -o $(ASM_DIR)/time.s time_test.c
+	gcc -o $(BIN_DIR)/time time_test.c
 
 array:array_test.c
-	gcc -E -o ./pre/array.i array_test.c
-	gcc -S -o ./asm/array.s array_test.c
-	gcc -o ./bin/array array_test.c
+	gcc -E -o $(PRE_DIR)/array.i array_test.c
+	gcc -S -o $(ASM_DIR)/array.s array_test.c
+	gcc -o $(BIN_DIR)/array array_test.c
 string:string_test.c
-	gcc -E -o ./pre/string.i string_test.c
-	gcc -S -o ./asm/string.s string_test.c
-	gcc -o ./bin/string string_test.c
+	gcc -E -o $(PRE_DIR)/string.i string_test.c
+	gcc -S -o $(ASM_DIR)/string.s string_test.c
+	gcc -o $(BIN_DIR)/string string_test.c
 
 clean:
-	rm -rf ./bin/ ./asm ./pre
-	mkdir bin asm pre
+	rm -rf $(PRE_DIR) $(ASM_DIR) $(BIN_DIR)
+	mkdir $(PRE_DIR) $(ASM_DIR) $(BIN_DIR)
 
 .PHONY: clean
 
