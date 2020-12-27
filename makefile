@@ -2,7 +2,7 @@ PRE_DIR=./pre
 ASM_DIR=./asm
 BIN_DIR=./bin
 
-init:
+clean:
 	rm -rf $(PRE_DIR) $(ASM_DIR) $(BIN_DIR)
 	mkdir $(PRE_DIR) $(ASM_DIR) $(BIN_DIR)
 
@@ -11,9 +11,6 @@ init:
 	gcc -S -o $(ASM_DIR)/$@.s $<
 	gcc -o $(BIN_DIR)/$@ $<
 
-clean:
-	rm -rf $(PRE_DIR) $(ASM_DIR) $(BIN_DIR)
-	mkdir $(PRE_DIR) $(ASM_DIR) $(BIN_DIR)
 
 .PHONY: clean
 
