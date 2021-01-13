@@ -1,4 +1,115 @@
 #include <stdio.h>
-
+#include<stdlib.h> //__WORDSIZE
+void test64or32();
+void testBigOrLittleEnd();
+int isLittleEndian(void);
+int isLittleEndian02(void);
+int isLittleEndian03(void);
+void isLittleEndian04(void) ;
 int main(int argc, char **argv) {
+	test64or32();
+	testBigOrLittleEnd();
+	isLittleEndian04();
+}
+
+void test64or32(){
+
+    //method 1
+    void*number = 0;
+    printf("%lu \n", sizeof(&number));
+ 
+    //method 2
+    printf("size:%d \n", __WORDSIZE);
+ 
+    //method 3
+    #ifdef __x86_64__
+      printf("64bits machine \n");
+    #elif __i386__
+      printf("32 bits machine \n");
+    #endif
+}
+int isLittleEndian(void) 
+{ 
+    int i = 0x12345678; 
+    char *c = (char *)&i; 
+    printf("c0 %p \n", c);  //0x7ffee926a84c
+    printf("c1 %p \n", c+1);//0x7ffee926a84d
+    printf("c2 %p \n", c+2);//0x7ffee926a84e
+    printf("c3 %p \n", c+3);//0x7ffee926a84f
+    return ((c[0] == 0x78) && (c[1] == 0x56) && (c[2] == 0x34) && (c[3] == 0x12)); 
+ }
+void isLittleEndian04(void) 
+{ 
+	int i =0x12345678; 
+	int i2 =0x89abcdef;
+	char *c = (char *)&i;
+	char *c2 = (char *)&i2;  
+	printf("c0 %p,%x \n", c,c[0]);
+    printf("c1 %p,%x  \n", c+1,c[1]);
+    printf("c2 %p,%x  \n", c+2,c[2]);
+    printf("c3 %p,%x  \n", c+3,c[3]);
+    printf("c20 %p,%x \n", c2,c2[0]);
+    printf("c21 %p,%x  \n", c2+1,c2[1]);
+    printf("c22 %p,%x  \n", c2+2,c2[2]);
+    printf("c23 %p,%x  \n", c2+3,c2[3]);
+    int b[2]={0x12345678,0x89abcdef};
+   /* char *c = (char *)&b; 
+    printf("c0 %p,%x \n", c,c[0]);
+    printf("c1 %p,%x  \n", c+1,c[1]);
+    printf("c2 %p,%x  \n", c+2,c[2]);
+    printf("c3 %p,%x  \n", c+3,c[3]);
+    printf("c4 %p,%x  \n", c+4,c[4]);
+    printf("c5 %p,%x  \n", c+5,c[5]);
+    printf("c6 %p,%x  \n", c+6,c[6]);
+    printf("c7 %p,%x  \n", c+7,c[7]);
+    */
+ }
+
+// 1: Little Endian; 0: Big Endian.
+int isLittleEndian02(void)
+{
+	typedef union {
+	    int i;
+	    char c;
+	} myUnion;
+    myUnion u;
+    u.i = 1;
+    return (u.i == u.c);
+}
+int isLittleEndian03(void) 
+{ 
+   int a = 1;
+	char * p = (char *)&a;
+ 
+	if (1 == *p)
+	{
+		return 1;
+	}
+	else
+	{
+		return 0;
+	}
+ }
+//针对一个多字节的数据类型, 一种是将低序字节存储在起始地址，这称为小端(little-endian)字节序；另一种方法是将高序字节存储在起始地址，这称为大端(big-endian)字节序
+//大端字节序(存储模式)：一个数据的低位字节序的内容存放在高地址处，而高位字节序的内容存放在低地址处。
+//小端字节序(存储模式)：一个数据的高位字节序的内容存放在高地址处，而低位字节序的内容存放在低地址处。
+void testBigOrLittleEnd(){
+	if (isLittleEndian()==1)
+	{
+		printf("Little Endian\n");
+	} else {
+		printf("Big Endian\n");
+	}
+	if (isLittleEndian02()==1)
+	{
+		printf("Little Endian\n");
+	} else {
+		printf("Big Endian\n");
+	}
+	if (isLittleEndian03()==1)
+	{
+		printf("Little Endian\n");
+	} else {
+		printf("Big Endian\n");
+	}
 }
