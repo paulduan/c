@@ -6,6 +6,7 @@ int isLittleEndian(void);
 int isLittleEndian02(void);
 int isLittleEndian03(void);
 void isLittleEndian04(void) ;
+//对于 跨越多字节的 程序对象
 int main(int argc, char **argv) {
 	test64or32();
 	testBigOrLittleEnd();
