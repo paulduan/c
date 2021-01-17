@@ -6,7 +6,11 @@ int isLittleEndian(void);
 int isLittleEndian02(void);
 int isLittleEndian03(void);
 void isLittleEndian04(void) ;
-//对于 跨越多字节的 程序对象
+//对于 跨越多字节的 程序对象 我们必须建立两个规则，1这个对象的地址是什么(使用字节中的最小字节) 2多字节如何排序(大端or小端)
+//intel兼容机都是小端
+//最小字节存高位的是大端，最小字节存低位的是小端
+//栈内存从高地址向低地址分配，每次分配一段，比如声明一个int i =0x12345678 就会 分配 f,e,d,c 4个字节，78放在c,56放在d,&i==c
+
 int main(int argc, char **argv) {
 	test64or32();
 	testBigOrLittleEnd();
@@ -42,7 +46,7 @@ int isLittleEndian(void)
 void isLittleEndian04(void) 
 { 
 	int i =0x12345678; 
-	int i2 =0x89abcdef;
+	int i2 =0x78abcdef;
 	char *c = (char *)&i;
 	char *c2 = (char *)&i2;  
 	printf("c0 %p,%x \n", c,c[0]);
@@ -91,9 +95,6 @@ int isLittleEndian03(void)
 		return 0;
 	}
  }
-//针对一个多字节的数据类型, 一种是将低序字节存储在起始地址，这称为小端(little-endian)字节序；另一种方法是将高序字节存储在起始地址，这称为大端(big-endian)字节序
-//大端字节序(存储模式)：一个数据的低位字节序的内容存放在高地址处，而高位字节序的内容存放在低地址处。
-//小端字节序(存储模式)：一个数据的高位字节序的内容存放在高地址处，而低位字节序的内容存放在低地址处。
 void testBigOrLittleEnd(){
 	if (isLittleEndian()==1)
 	{
