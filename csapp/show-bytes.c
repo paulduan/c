@@ -49,6 +49,14 @@ void simple_show_a() {
   /* $end simple-show-a */
 }
 
+void simple_show_string() {
+  /* $begin simple_show_string */
+  char * val = "123456";
+  byte_pointer valp = (byte_pointer) &val;
+  show_bytes(valp, 6); /* A. */
+  /* $end simple_show_string */
+}
+
 void simple_show_b() {
   /* $begin simple-show-b */
   int val = 0x12345678;
@@ -122,6 +130,8 @@ int main(int argc, char *argv[])
     string_ueg();
     printf("Calling string_leg\n");
     string_leg();
+    printf("Calling string_string\n");
+    simple_show_string();
   }
   return 0;
 }
