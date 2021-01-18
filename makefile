@@ -1,5 +1,6 @@
 PRE_DIR=./pre
 ASM_DIR=./asm
+# view use xxd commond 
 OBJ_DIR=./obj
 DASM_DIR=./disasm
 BIN_DIR=./bin
