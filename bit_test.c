@@ -7,6 +7,7 @@ int isLittleEndian02(void);
 int isLittleEndian03(void);
 void isLittleEndian04(void);
 void move(void);
+void cast(void);
 //对于 跨越多字节的 程序对象 我们必须建立两个规则，1这个对象的地址是什么(使用字节中的最小字节) 2多字节如何排序(大端or小端)
 //intel兼容机都是小端
 //最小字节存高位的是大端，最小字节存低位的是小端
@@ -17,9 +18,15 @@ int main(int argc, char **argv) {
     testBigOrLittleEnd();
     isLittleEndian04();
     move();
+    cast();
+}
+void cast(void) {
+    short s = -12345;
+    unsigned short ls= (unsigned short) s;
+    printf("cast %d,%d\n", s,ls);
 }
 void move(void) {
-    int lval = 0xFEDCBA92 << 32;
+    int lval = 0xFEDCBA92 << 31;
     printf("%x\n", lval);
     //算数右移，左边补最高位
     //逻辑右移，左边补0
