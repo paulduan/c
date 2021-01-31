@@ -14,7 +14,7 @@ clean:
 	@gcc -c -o $(OBJ_DIR)/$@.o $<
 	@objdump -s -d $(OBJ_DIR)/$@.o > $(DASM_DIR)/$@.s
 	@gcc -o $(BIN_DIR)/$@ $<
-	@$(BIN_DIR)/$@
+	@$(BIN_DIR)/$@ ${ARG}
 
 snake:
 	@gcc Gluttonous_Snake.c -o $(BIN_DIR)/snake -lncurses
