@@ -1,0 +1,42 @@
+1.vim通过 gf（goto file）进入文件，如果要后退可以ctrl+o
+
+set fileencodings=utf-8,ucs-bom,gb18030,gbk,gb2312,cp936
+set termencoding=utf-8
+set encoding=utf-8
+syntax on
+set nu!
+set autoindent
+set path+=/usr/local/include/
+
+#include "server.h"
+	#include "fmacros.h"
+		1.根据不同系统预定义宏 定义一些 xx_SOURCE,这些source会指导编译器，链接不同版本的代码
+			例如basename()有两个不同的版本————posix版本，gnu版本，下面这样就会启动gnu版本的basename
+			#include <libgen.h> /*使用glibc，当包含<libgen.h>时，将获得basename()的POSIX版本，否则将获得GNU版本。*/
+			#define _GNU_SOURCE         /* See feature_test_macros(7) */
+			#include <string.h>
+		2.两个和大文件有关的宏开关
+		  	#define _LARGEFILE_SOURCE
+		  	#define _FILE_OFFSET_BITS 64
+	#include "config.h"
+		1.识别不同内核来决定一些函数的实现 例如 redis_stat redis_fstat setproctitle spt_init rdb_fsync_range redis_fsync redis_set_thread_title BYTE_ORDER 以及其他一些宏和头文件
+		#include <linux/version.h>
+			定义LINUX_VERSION_CODE KERNEL_VERSION 等宏
+		#include <features.h>
+			通过识别预定宏，来定义一批功能宏，来开启一些条件编译，包括xx_SOURCE都是在这个文件里处理
+	#include "solarisfixes.h"
+		针对 __sun+__GNUC__的情况重新定义isnan isfinite  isinf
+	#include "rio.h"
+		#include "sds.h"
+
+		#include "connection.h"
+			
+		1.
+
+	1.
+#include "cluster.h"
+#include "slowlog.h"
+#include "bio.h"
+#include "latency.h"
+#include "atomicvar.h"
+
