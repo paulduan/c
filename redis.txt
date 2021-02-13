@@ -28,9 +28,13 @@ set path+=/usr/local/include/
 		针对 __sun+__GNUC__的情况重新定义isnan isfinite  isinf
 	#include "rio.h"
 		#include "sds.h"
-
+			定义sds
 		#include "connection.h"
-			
+			//前置声明，避免了编译出错，因为aeEventLoop需要用到aeFileEvent结构体
+			https://blog.csdn.net/astrotycoon/article/details/41286413
+			struct aeEventLoop;
+			定义了一个类connection 实现了一组方法 但是内部实现由抽象的ConnectionType决定，为什么是static inline的呢
+
 		1.
 
 	1.
