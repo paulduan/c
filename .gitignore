@@ -2,6 +2,7 @@ asm
 obj
 bin
 pre
+disasm
 a.out
 *.o
 *.i
