@@ -8,6 +8,51 @@ set nu!
 set autoindent
 set path+=/usr/local/include/
 
+make distclean
+make noopt V=1 或者make -n
+https://redis.io/topics/debugging
+https://redis.io/topics/config
+https://gist.github.com/JonCole/4a249477142be839b904f7426ccccf82 问题定位
+https://www.digitalocean.com/community/cheatsheets/how-to-troubleshoot-issues-in-redis
+https://blog.csdn.net/kefengwang/article/details/81177595
+grep -Ev "^$|[#;]" redis.conf 或者通过 CONFIG GET 
+src/redis-server ./redis.conf --loglevel debug  --daemonize yes --logfile ./a.log
+src/redis-cli monitor
+redis-cli shutdown
+查看预编译结果
+cc -E -I../deps/hiredis -I../deps/linenoise -I../deps/lua/src -o server.i -c server.c
+cc -E -I../deps/hiredis -I../deps/linenoise -I../deps/lua/src -o setproctitle.i-c setproctitle.c
+主要数据结构
+
+struct redisServer 
+typedef struct redisObject
+
+
+help get
+
+sudo lldb -- src/redis-server ./redis.conf --loglevel debug --daemonize yes --logfile ./a.log //--表示后面没有lldb的参数了
+b main
+r
+
+
+(lldb) thread continue   //c 
+(lldb) thread step-in    // The same as gdb's "step" or "s"
+(lldb) thread step-over  // The same as gdb's "next" or "n"
+(lldb) thread step-out   // The same as gdb's "finish" or "f
+//通过bt查看信息
+bt
+//通过bt后，出现的信息是通过frame进行标号的。
+frame
+//通过up查看上一条调用信息
+up
+//通过down查看下一条调用信息
+down
+//查看对应frame的信息
+frame select 2
+//查看方法的所有变量
+frame variable
+
+
 #include "server.h"
 	#include "fmacros.h"
 		1.根据不同系统预定义宏 定义一些 xx_SOURCE,这些source会指导编译器，链接不同版本的代码
@@ -44,3 +89,19 @@ set path+=/usr/local/include/
 #include "latency.h"
 #include "atomicvar.h"
 
+
+
+ 276  ip address
+  277  vim /etc/resolv.conf
+  278  sudo vim /etc/resolv.conf
+  279  systemctl restart NetworkManager
+  280  cat /etc/resolv.conf
+  281  cd /etc/NetworkManager/
+  282  ls
+  283  cd conf.d/
+  284  ls
+  285  sudo vim 90-dns-none.conf
+  286  sudo vim /etc/resolv.conf
+  287  systemctl reload NetworkManager
+  288  cat /etc/resolv.conf
+  289  ping git github.com
