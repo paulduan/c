@@ -34,6 +34,7 @@ set path+=/usr/local/include/
 			https://blog.csdn.net/astrotycoon/article/details/41286413
 			struct aeEventLoop;
 			定义了一个类connection 实现了一组方法 但是内部实现由抽象的ConnectionType决定，为什么是static inline的呢
+			定义了创建connection 配置connection 和使用connection的一些方法
 
 		1.
 
@@ -43,4 +44,54 @@ set path+=/usr/local/include/
 #include "bio.h"
 #include "latency.h"
 #include "atomicvar.h"
+
+
+
+make distclean
+make noopt V=1 或者make -n
+
+https://redis.io/topics/debugging
+
+https://redis.io/topics/config
+
+https://gist.github.com/JonCole/4a249477142be839b904f7426ccccf82 问题定位
+https://www.digitalocean.com/community/cheatsheets/how-to-troubleshoot-issues-in-redis
+https://blog.csdn.net/kefengwang/article/details/81177595
+grep -Ev "^$|[#;]" redis.conf 或者通过 CONFIG GET 
+
+src/redis-server ./redis.conf --loglevel debug  --daemonize yes --logfile ./a.log
+src/redis-cli monitor
+redis-cli shutdown
+查看预编译结果
+cc -E -I../deps/hiredis -I../deps/linenoise -I../deps/lua/src -o server.i -c server.c
+cc -E -I../deps/hiredis -I../deps/linenoise -I../deps/lua/src -o setproctitle.i -c setproctitle.c
+主要数据结构
+
+struct redisServer 
+typedef struct redisObject
+
+
+help get
+
+sudo lldb -- src/redis-server ./redis.conf --loglevel debug //--表示后面没有lldb的参数了
+gdb --args src/redis-server ./redis.conf
+
+b main
+r
+
+
+(lldb) thread continue   //c 
+(lldb) thread step-in    // The same as gdb's "step" or "s"
+(lldb) thread step-over  // The same as gdb's "next" or "n"
+(lldb) thread step-out   // The same as gdb's "finish" or "f
+
+
+
+1.启动过程
+  加载配置
+  初始化内存
+  初始化网络
+  事件循环启动
+2.命令执行过程
+3.监控
 
