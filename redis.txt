@@ -79,6 +79,7 @@ frame variable
 			https://blog.csdn.net/astrotycoon/article/details/41286413
 			struct aeEventLoop;
 			定义了一个类connection 实现了一组方法 但是内部实现由抽象的ConnectionType决定，为什么是static inline的呢
+			定义了创建connection 配置connection 和使用connection的一些方法
 
 		1.
 
@@ -89,19 +90,3 @@ frame variable
 #include "latency.h"
 #include "atomicvar.h"
 
-
-
- 276  ip address
-  277  vim /etc/resolv.conf
-  278  sudo vim /etc/resolv.conf
-  279  systemctl restart NetworkManager
-  280  cat /etc/resolv.conf
-  281  cd /etc/NetworkManager/
-  282  ls
-  283  cd conf.d/
-  284  ls
-  285  sudo vim 90-dns-none.conf
-  286  sudo vim /etc/resolv.conf
-  287  systemctl reload NetworkManager
-  288  cat /etc/resolv.conf
-  289  ping git github.com
