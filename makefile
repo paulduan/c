@@ -1,16 +1,15 @@
 PRE_DIR=./pre
 ASM_DIR=./asm
-# view use xxd commond 
-OBJ_DIR=./obj
+#relocatable object program
+ROP_DIR=./rop
 DASM_DIR=./disasm
 BIN_DIR=./bin
 HEX_DIR=./hex
 LDD_DIR=./ldd
 DETAIL_DIR=./detail
-GCCDEBUG= -v -g3
 clean:
-	@rm -rf $(PRE_DIR) $(ASM_DIR) $(OBJ_DIR) $(DASM_DIR) $(BIN_DIR) $(HEX_DIR) $(LDD_DIR) $(DETAIL_DIR)
-	@mkdir $(PRE_DIR) $(ASM_DIR) $(OBJ_DIR) $(DASM_DIR) $(BIN_DIR) $(HEX_DIR) $(LDD_DIR) $(DETAIL_DIR)
+	@rm -rf $(PRE_DIR) $(ASM_DIR) $(ROP_DIR) $(DASM_DIR) $(BIN_DIR) $(HEX_DIR) $(LDD_DIR) $(DETAIL_DIR)
+	@mkdir $(PRE_DIR) $(ASM_DIR) $(ROP_DIR) $(DASM_DIR) $(BIN_DIR) $(HEX_DIR) $(LDD_DIR) $(DETAIL_DIR)
 # 冒号前面是target 后面是prerequisites
 # % 表示匹配当前目录所有_test.c结尾的文件
 # $< 代表匹配的prerequisites 也就是 eg. string_test.c
@@ -22,10 +21,11 @@ clean:
 % : %_test.c
 	@gcc -E -o $(PRE_DIR)/$@.i $<
 	@gcc -S -o $(ASM_DIR)/$@.s $<
-	@gcc -c -o $(OBJ_DIR)/$@.o $<
-	@objdump -s -d $(OBJ_DIR)/$@.o > $(DASM_DIR)/$@.s
-	@gcc ${GCCDEBUG} -o $(BIN_DIR)/$@ $< > $(DETAIL_DIR)/$@.detail  2>&1
-	@xxd $(BIN_DIR)/$@ > ${HEX_DIR}/$@.hex
+	@gcc -c -o $(ROP_DIR)/$@.o $<
+	@objdump -s -d $(ROP_DIR)/$@.o > $(DASM_DIR)/$@.s
+	@gcc -g3 -o $(BIN_DIR)/$@ $<
+	@gcc -v -o $(BIN_DIR)/$@ $< > $(DETAIL_DIR)/$@.detail  2>&1
+	@xxd $(ROP_DIR)/$@.o > ${HEX_DIR}/$@.hex
 	@ldd $(BIN_DIR)/$@ > ${LDD_DIR}/$@.ldd
 	@$(BIN_DIR)/$@ ${ARG}
 #yum install ncurses-devel
@@ -36,8 +36,6 @@ debug1:
 debug2:
 	@gcc Gluttonous_Snake.c -o $(BIN_DIR)/snake -lncurses -DDEBUG=2
 	
-vim_% : bin/%
-	@vim -b -c ":%!xxd" $<
 .PHONY: clean
 
 .DEFAULT:

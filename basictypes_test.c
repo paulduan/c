@@ -66,8 +66,10 @@ void integer() {
 |                                                                                 |
 | double        8 byte                2.3E-308 to 1.7E+308     15 decimal places  |
 |                                                                                 |
-| long double   10 byte               3.4E-4932 to 1.1E+4932   19 decimal places  |
+| long double   16 byte               3.4E-4932 to 1.1E+4932   19 decimal places  |
 +---------------------------------------------------------------------------------+
+float 31-sign 30-23-8exponent 22-0-23fraction
+double 63-sign 62-52-11exponent 51-0-52fraction 
 */
 void floating() {
 	printf("Storage size for float : %lu \n", sizeof(float));
